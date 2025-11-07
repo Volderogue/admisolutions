@@ -1,0 +1,43 @@
+
+networks:
+  proxy:
+    external: true
+  internal:
+    driver: bridge
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile.web
+    container_name: adminsolution-web
+    networks:
+      - proxy
+      - internal
+    environment:
+      - VIRTUAL_HOST=adminsolution.digiconseil.fr
+      - LETSENCRYPT_HOST=adminsolution.digiconseil.fr
+      - LETSENCRYPT_EMAIL=contact@digiconseil.fr
+    volumes:
+      - ./uploads:/usr/share/nginx/html/uploads:rw
+    restart: unless-stopped
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile.api
+    container_name: adminsolution-api
+    networks:
+      - proxy
+      - internal
+    env_file:
+      - ./api/.env
+    environment:
+      - VIRTUAL_HOST=api.adminsolution.digiconseil.fr
+      - LETSENCRYPT_HOST=api.adminsolution.digiconseil.fr
+      - LETSENCRYPT_EMAIL=contact@digiconseil.fr
+    volumes:
+      - ./uploads:/app/uploads:rw
+    restart: unless-stopped
+
+
