@@ -67,7 +67,7 @@ const ContactPage = ({ onNavigate }: ContactPageProps) => {
     {
       icon: MapPin,
       title: 'Adresse',
-      value: '2 Clos de Gally\n78590 Noisy-le-Roi',
+      value: '53 rue de la République\n78920 Ecquevilly',
       color: 'from-purple-500 to-purple-600',
     },
   ];
@@ -236,8 +236,7 @@ const ContactPage = ({ onNavigate }: ContactPageProps) => {
                     >
                       <option value="">Sélectionnez un service</option>
                       <option value="gestion-administrative">Gestion Administrative</option>
-                      <option value="ressources-humaines">Ressources Humaines</option>
-                      <option value="communication">Communication</option>
+                      <option value="office-management">Office Management</option>
                       <option value="autre">Autre</option>
                     </select>
                   </div>

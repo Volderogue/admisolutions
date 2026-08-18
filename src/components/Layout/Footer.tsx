@@ -14,9 +14,11 @@ const Footer = ({ onNavigate }: FooterProps) => {
           {/* Logo et Description */}
           <div>
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-12 h-12 bg-gradient-to-br from-admin-primary to-admin-secondary rounded-lg flex items-center justify-center font-bold text-xl">
-                AS
-              </div>
+              <img 
+                src="/images/logo_admin.jpg" 
+                alt="Admin Solution Logo" 
+                className="h-12 w-auto"
+              />
               <div>
                 <div className="font-bold text-lg">Admin Solution</div>
                 <div className="text-sm text-gray-400">Votre partenaire administratif</div>
@@ -32,12 +34,13 @@ const Footer = ({ onNavigate }: FooterProps) => {
           <div>
             <h3 className="font-bold text-lg mb-4">Navigation</h3>
             <ul className="space-y-2">
-              {['Accueil', 'À propos', 'Services', 'Clients', 'Contact'].map((item, index) => {
+              {['Accueil', 'À propos', 'Services', 'Clients', 'Actus', 'Contact'].map((item, index) => {
                 const pageMap: { [key: string]: string } = {
                   'Accueil': 'home',
                   'À propos': 'about',
                   'Services': 'services',
                   'Clients': 'clients',
+                  'Actus': 'actu',
                   'Contact': 'contact',
                 };
                 return (
@@ -79,7 +82,7 @@ const Footer = ({ onNavigate }: FooterProps) => {
               </li>
               <li className="flex items-start gap-3 text-gray-300">
                 <MapPin size={18} className="mt-1 flex-shrink-0" />
-                <span>2 Clos de Gally<br />78590 Noisy-le-Roi</span>
+                <span>53 rue de la République<br />78920 Ecquevilly</span>
               </li>
             </ul>
           </div>

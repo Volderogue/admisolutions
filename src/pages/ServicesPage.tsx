@@ -1,4 +1,4 @@
-import { FileText, Users, Megaphone, Calendar, Calculator, Mail, Phone, ClipboardCheck, UserCheck, TrendingUp } from 'lucide-react';
+import { FileText, Users, Calendar, Calculator, Mail, Phone, ClipboardCheck, TrendingUp, Building2, Lightbulb, Target } from 'lucide-react';
 
 interface ServicesPageProps {
   onNavigate: (page: string) => void;
@@ -13,80 +13,82 @@ const ServicesPage = ({ onNavigate }: ServicesPageProps) => {
       description: 'Libérez-vous des tâches administratives chronophages et concentrez-vous sur votre cœur de métier.',
       items: [
         {
-          icon: Mail,
-          title: 'Gestion du courrier',
-          description: 'Tri, traitement et archivage de vos correspondances professionnelles',
-        },
-        {
-          icon: Calendar,
-          title: 'Gestion d\'agenda',
-          description: 'Organisation de vos rendez-vous et planification de vos réunions',
+          icon: FileText,
+          title: 'Secrétariat courant',
+          description: 'Gestion du courrier, de l\'agenda et de la correspondance professionnelle',
         },
         {
           icon: Calculator,
-          title: 'Facturation et devis',
-          description: 'Création et suivi de vos documents commerciaux',
+          title: 'Achats/ventes',
+          description: 'Gestion des commandes, des fournisseurs et du suivi commercial',
         },
         {
           icon: ClipboardCheck,
-          title: 'Saisie comptable',
-          description: 'Enregistrement et classement de vos pièces comptables',
-        },
-      ],
-    },
-    {
-      category: 'Ressources Humaines',
-      icon: Users,
-      color: 'from-green-500 to-green-600',
-      description: 'Optimisez la gestion de vos ressources humaines avec nos experts RH dédiés.',
-      items: [
-        {
-          icon: UserCheck,
-          title: 'Recrutement',
-          description: 'Sourcing, présélection et accompagnement dans vos recrutements',
-        },
-        {
-          icon: FileText,
-          title: 'Gestion administrative du personnel',
-          description: 'Contrats, avenants, attestations et documents RH',
-        },
-        {
-          icon: Calendar,
-          title: 'Gestion des temps',
-          description: 'Suivi des présences, absences et congés',
-        },
-        {
-          icon: TrendingUp,
-          title: 'Formation',
-          description: 'Gestion et suivi du plan de formation',
-        },
-      ],
-    },
-    {
-      category: 'Communication',
-      icon: Megaphone,
-      color: 'from-purple-500 to-purple-600',
-      description: 'Développez votre visibilité et renforcez votre image de marque.',
-      items: [
-        {
-          icon: TrendingUp,
-          title: 'Réseaux sociaux',
-          description: 'Animation et gestion de votre présence sur les réseaux',
-        },
-        {
-          icon: FileText,
-          title: 'Rédaction de contenu',
-          description: 'Articles, newsletters et contenus web optimisés SEO',
-        },
-        {
-          icon: Mail,
-          title: 'Campagnes emailing',
-          description: 'Création et gestion de vos campagnes marketing',
+          title: 'Préparation comptable',
+          description: 'Récupération des justificatifs, rapprochement bancaire et coordination cabinet comptable',
         },
         {
           icon: Phone,
-          title: 'Relation client',
-          description: 'Gestion des appels et suivi de votre satisfaction client',
+          title: 'Gestion des Appels d\'Offres',
+          description: 'Suivi, coordination et constitution des dossiers de réponse',
+        },
+        {
+          icon: TrendingUp,
+          title: 'Suivi commercial',
+          description: 'Gestion de la relation client et suivi des opportunités',
+        },
+        {
+          icon: Calendar,
+          title: 'Gestion des plannings',
+          description: 'Organisation et coordination des emplois du temps',
+        },
+        {
+          icon: Mail,
+          title: 'Facturation',
+          description: 'Création, envoi et suivi des factures et devis',
+        },
+      ],
+    },
+    {
+      category: 'Office Management',
+      icon: Users,
+      color: 'from-green-500 to-green-600',
+      description: 'Optimisez votre organisation interne et déléguez la gestion de vos opérations quotidiennes.',
+      items: [
+        {
+          icon: Lightbulb,
+          title: 'Optimisation interne',
+          description: 'Analyse et amélioration de vos processus organisationnels',
+        },
+        {
+          icon: Target,
+          title: 'Mise en place de process',
+          description: 'Création et documentation des procédures internes',
+        },
+        {
+          icon: TrendingUp,
+          title: 'Gestion de projets',
+          description: 'Pilotage et coordination de vos projets d\'entreprise',
+        },
+        {
+          icon: Users,
+          title: 'Ressources Humaines & Paie',
+          description: 'Gestion administrative du personnel et suivi de la paie',
+        },
+        {
+          icon: Calculator,
+          title: 'Suivi de la trésorerie',
+          description: 'Monitoring des flux financiers et prévisions de trésorerie',
+        },
+        {
+          icon: Calendar,
+          title: 'Organisation d\'événements',
+          description: 'Planification et coordination de vos événements professionnels',
+        },
+        {
+          icon: Building2,
+          title: 'Gestion des locaux',
+          description: 'Administration des espaces de travail et des services généraux',
         },
       ],
     },
@@ -170,7 +172,7 @@ const ServicesPage = ({ onNavigate }: ServicesPageProps) => {
               Une question sur nos services ?
             </h2>
             <p className="text-xl mb-8 text-white/90 max-w-2xl mx-auto">
-              Nos experts sont à votre disposition pour vous conseiller et vous proposer la solution la plus adaptée à vos besoins.
+              Notre équipe est à votre disposition pour vous conseiller et vous proposer la solution la plus adaptée à vos besoins.
             </p>
             <button
               onClick={() => onNavigate('contact')}

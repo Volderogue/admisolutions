@@ -1,13 +1,23 @@
-import { ArrowRight, CheckCircle, Users, Award, Clock, Briefcase, TrendingUp, Headphones } from 'lucide-react';
+import {
+  ArrowRight,
+  CheckCircle,
+  Users,
+  Award,
+  Briefcase,
+  TrendingUp,
+  Calendar,
+} from 'lucide-react';
+import { newsArticles } from '../data/newsArticles';
 
 interface HomePageProps {
   onNavigate: (page: string) => void;
+  onOpenArticle: (articleId: string) => void;
 }
 
-const HomePage = ({ onNavigate }: HomePageProps) => {
+const HomePage = ({ onNavigate, onOpenArticle }: HomePageProps) => {
   const stats = [
-    { icon: Users, value: '200+', label: 'Experts' },
-    { icon: Briefcase, value: '60+', label: 'Clients accompagnés' },
+    { icon: Users, value: '40+', label: 'Experts' },
+    { icon: Briefcase, value: '20+', label: 'Clients accompagnés' },
     { icon: Award, value: '10+', label: "Années d'expérience" },
     { icon: TrendingUp, value: '6', label: "Domaines d'expertise" },
   ];
@@ -43,38 +53,44 @@ const HomePage = ({ onNavigate }: HomePageProps) => {
     {
       icon: Briefcase,
       title: 'Gestion Administrative',
-      description: 'Externalisez votre gestion administrative au quotidien',
+      description: 'Secrétariat courant, achats/ventes, préparation comptable, gestion des appels d\'offres, suivi commercial, gestion des plannings et facturation',
     },
     {
       icon: Users,
-      title: 'Ressources Humaines',
-      description: 'Gestion RH complète et accompagnement personnalisé',
-    },
-    {
-      icon: Headphones,
-      title: 'Communication',
-      description: 'Développez votre communication et votre présence digitale',
+      title: 'Office Management',
+      description: 'Optimisation interne, mise en place de process, gestion de projets, ressources humaines & paie, suivi de la trésorerie, organisation d\'événements, gestion des locaux',
     },
   ];
 
   const pricingPlans = [
     {
-      name: 'HEURE',
-      price: '49,95',
-      description: 'Un expert dédié qui vous est facturé à l\'heure pour un maximum de flexibilité.',
+      name: 'ESSENTIEL',
+      price: 'À partir de 276,50 € HT / mois',
+      description: 'Idéal pour une mission ponctuelle ou un coup de pouce rapide.',
     },
     {
-      name: 'DEMI-JOURNÉE',
-      price: '164,95',
-      description: 'Un expert dédié qui vous est facturé à l\'heure pour un maximum de flexibilité.',
+      name: 'STANDARD',
+      price: 'À partir de 314,95 € HT / mois',
+      description: 'Parfait pour avancer efficacement sur un projet ciblé.',
       featured: true,
     },
     {
-      name: 'JOURNÉE',
-      price: '314,95',
-      description: 'Un expert dédié qui vous est facturé à l\'heure pour un maximum de flexibilité.',
+      name: 'SUR-MESURE',
+      description: 'Optimal pour une délégation complète sans interruption.',
     },
   ];
+
+  const latestNews = [...newsArticles]
+    .sort((a, b) => {
+      const [dayA, monthA, yearA] = a.date.split('/').map(Number);
+      const [dayB, monthB, yearB] = b.date.split('/').map(Number);
+      const fullYearA = yearA < 100 ? 2000 + yearA : yearA;
+      const fullYearB = yearB < 100 ? 2000 + yearB : yearB;
+      const dateA = new Date(fullYearA, monthA - 1, dayA).getTime();
+      const dateB = new Date(fullYearB, monthB - 1, dayB).getTime();
+      return dateB - dateA;
+    })
+    .slice(0, 3);
 
   return (
     <div className="bg-white">
@@ -84,11 +100,10 @@ const HomePage = ({ onNavigate }: HomePageProps) => {
         <div className="container-custom relative z-10">
           <div className="grid lg:grid-cols-2 gap-12 items-center py-12">
             <div className="text-white animate-fade-in-up">
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
-                Concentrez-vous sur votre{' '}
-                <span className="text-admin-secondary">croissance</span>
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight text-white">
+                Concentrez-vous sur votre croissance,
                 <br />
-                <span className="text-admin-accent">On s'occupe du reste !</span>
+                on s'occupe du reste
               </h1>
               <div className="space-y-4 mb-8">
                 {benefits.map((benefit, index) => (
@@ -108,13 +123,11 @@ const HomePage = ({ onNavigate }: HomePageProps) => {
             </div>
             <div className="hidden lg:block animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
               <div className="relative">
-                <div className="w-full aspect-square bg-white/10 backdrop-blur-sm rounded-3xl shadow-2xl border border-white/20 flex items-center justify-center">
-                  <div className="text-center">
-                    <div className="text-8xl font-bold text-white/90 mb-4">AS</div>
-                    <div className="text-2xl font-semibold text-admin-secondary">Admin Solution</div>
-                    <div className="text-white/80 mt-2">Partenaire de votre croissance</div>
-                  </div>
-                </div>
+                <img 
+                  src="/images/accueil.jpeg" 
+                  alt="Admin Solution - Équipe professionnelle" 
+                  className="w-full aspect-square object-cover rounded-3xl shadow-2xl"
+                />
                 {/* Floating elements */}
                 <div className="absolute -top-4 -right-4 w-24 h-24 bg-admin-accent rounded-full opacity-20 animate-pulse" />
                 <div className="absolute -bottom-4 -left-4 w-32 h-32 bg-admin-secondary rounded-full opacity-20 animate-pulse" style={{ animationDelay: '1s' }} />
@@ -185,7 +198,7 @@ const HomePage = ({ onNavigate }: HomePageProps) => {
               Externalisez dès demain en toute confiance
             </p>
           </div>
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
             {services.map((service, index) => {
               const Icon = service.icon;
               return (
@@ -210,6 +223,49 @@ const HomePage = ({ onNavigate }: HomePageProps) => {
         </div>
       </section>
 
+      {/* Latest News Section */}
+      <section className="py-20 bg-gray-50">
+        <div className="container-custom">
+          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12">
+            <div>
+              <h2 className="section-title">
+                Actualités <span className="text-admin-secondary">récentes</span>
+              </h2>
+              <p className="section-subtitle !mb-0">
+                Les dernières publications Admin Solution en un coup d&apos;oeil
+              </p>
+            </div>
+            <button onClick={() => onNavigate('actu')} className="btn-primary">
+              Voir toutes les actus
+            </button>
+          </div>
+
+          <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-8">
+            {latestNews.map((article) => (
+              <button
+                key={article.id}
+                onClick={() => onOpenArticle(article.id)}
+                className="text-left bg-white rounded-2xl overflow-hidden shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300"
+              >
+                <img
+                  src={article.images[0]}
+                  alt={article.title}
+                  className="w-full h-52 object-cover"
+                />
+                <div className="p-6">
+                  <div className="flex items-center gap-2 text-sm text-gray-500 mb-2">
+                    <Calendar size={16} />
+                    <span>{article.date}</span>
+                  </div>
+                  <h3 className="text-xl font-bold text-admin-dark mb-2">{article.title}</h3>
+                  <p className="text-gray-600">{article.excerpt}</p>
+                </div>
+              </button>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Pricing Section */}
       <section id="tarifs" className="py-20 bg-gradient-to-br from-admin-primary/95 via-admin-primary to-admin-secondary/80 text-white">
         <div className="container-custom">
@@ -230,13 +286,11 @@ const HomePage = ({ onNavigate }: HomePageProps) => {
                     : 'hover:scale-105 shadow-xl'
                 }`}
               >
-                <h3 className="text-2xl font-bold text-admin-dark mb-4">{plan.name}</h3>
-                <div className="mb-6">
-                  <span className="text-5xl font-bold text-admin-secondary">{plan.price} €</span>
-                  <span className="text-gray-600 ml-2">HT</span>
-                  <div className="text-sm text-gray-500 mt-2 italic">À partir de</div>
-                </div>
-                <p className="text-gray-600 mb-8 leading-relaxed">{plan.description}</p>
+                <h3 className="text-2xl font-bold text-admin-dark mb-6">{plan.name}</h3>
+                {plan.price && (
+                  <p className="text-xl font-semibold text-admin-primary mb-4">{plan.price}</p>
+                )}
+                <p className="text-gray-600 mb-8 leading-relaxed min-h-[60px]">{plan.description}</p>
                 <div className="border-t border-gray-200 my-6" />
                 <button
                   onClick={() => onNavigate('contact')}

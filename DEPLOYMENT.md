@@ -59,10 +59,12 @@ docker-compose logs -f
 ### 5. Vérification
 
 ```bash
-# Vérifier le site web
+# Vérifier le site web (prod + préprod)
+curl -I https://adminsolution.fr
 curl -I https://adminsolution.digiconseil.fr
 
-# Vérifier l'API
+# Vérifier l'API (prod + préprod)
+curl https://api.adminsolution.fr/health
 curl https://api.adminsolution.digiconseil.fr/health
 ```
 
@@ -70,6 +72,8 @@ curl https://api.adminsolution.digiconseil.fr/health
 
 Ajouter les enregistrements DNS :
 ```
+A    adminsolution.fr              →  [IP_SERVEUR]
+A    api.adminsolution.fr          →  [IP_SERVEUR]
 A    adminsolution.digiconseil.fr    →  [IP_SERVEUR]
 A    api.adminsolution.digiconseil.fr →  [IP_SERVEUR]
 ```

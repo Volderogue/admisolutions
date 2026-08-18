@@ -24,8 +24,15 @@ const Header = ({ currentPage, onNavigate }: HeaderProps) => {
     { id: 'about', label: 'À propos' },
     { id: 'services', label: 'Services' },
     { id: 'clients', label: 'Clients' },
+    { id: 'actu', label: 'Actus' },
     { id: 'contact', label: 'Contact' },
   ];
+
+  const isMenuItemActive = (itemId: string) => {
+    if (currentPage === itemId) return true;
+    if (currentPage === 'article' && itemId === 'actu') return true;
+    return false;
+  };
 
   const scrollToTarifs = () => {
     const tarifsSection = document.getElementById('tarifs');
@@ -88,9 +95,11 @@ const Header = ({ currentPage, onNavigate }: HeaderProps) => {
               onClick={() => onNavigate('home')}
               className="flex items-center gap-3 group"
             >
-              <div className="w-12 h-12 bg-gradient-to-br from-admin-primary to-admin-secondary rounded-lg flex items-center justify-center text-white font-bold text-xl shadow-lg group-hover:scale-105 transition-transform">
-                AS
-              </div>
+              <img 
+                src="/images/logo_admin.jpg" 
+                alt="Admin Solution Logo" 
+                className="h-12 w-auto group-hover:scale-105 transition-transform"
+              />
               <div className="hidden md:block">
                 <div className="text-xl font-bold text-admin-primary">Admin Solution</div>
                 <div className="text-xs text-gray-500">Votre partenaire administratif</div>
@@ -104,7 +113,7 @@ const Header = ({ currentPage, onNavigate }: HeaderProps) => {
                   key={item.id}
                   onClick={() => onNavigate(item.id)}
                   className={`font-medium transition-colors relative group ${
-                    currentPage === item.id
+                    isMenuItemActive(item.id)
                       ? 'text-admin-primary'
                       : 'text-gray-700 hover:text-admin-primary'
                   }`}
@@ -112,7 +121,7 @@ const Header = ({ currentPage, onNavigate }: HeaderProps) => {
                   {item.label}
                   <span
                     className={`absolute -bottom-1 left-0 w-full h-0.5 bg-admin-primary transition-transform origin-left ${
-                      currentPage === item.id ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'
+                      isMenuItemActive(item.id) ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'
                     }`}
                   />
                 </button>
@@ -162,7 +171,7 @@ const Header = ({ currentPage, onNavigate }: HeaderProps) => {
                       setIsMenuOpen(false);
                     }}
                     className={`text-left py-2 px-4 rounded-lg transition-colors ${
-                      currentPage === item.id
+                      isMenuItemActive(item.id)
                         ? 'bg-admin-primary text-white'
                         : 'text-gray-700 hover:bg-admin-light'
                     }`}

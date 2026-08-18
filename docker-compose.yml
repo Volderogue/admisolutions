@@ -15,8 +15,9 @@ services:
       - proxy
       - internal
     environment:
-      - VIRTUAL_HOST=adminsolution.digiconseil.fr
-      - LETSENCRYPT_HOST=adminsolution.digiconseil.fr
+      # Prod + préprod
+      - VIRTUAL_HOST=adminsolution.fr,www.adminsolution.fr,adminsolution.digiconseil.fr
+      - LETSENCRYPT_HOST=adminsolution.fr,www.adminsolution.fr,adminsolution.digiconseil.fr
       - LETSENCRYPT_EMAIL=contact@digiconseil.fr
     volumes:
       - ./uploads:/usr/share/nginx/html/uploads:rw
@@ -33,8 +34,9 @@ services:
     env_file:
       - ./api/.env
     environment:
-      - VIRTUAL_HOST=api.adminsolution.digiconseil.fr
-      - LETSENCRYPT_HOST=api.adminsolution.digiconseil.fr
+      # Prod + préprod
+      - VIRTUAL_HOST=api.adminsolution.fr,api.adminsolution.digiconseil.fr
+      - LETSENCRYPT_HOST=api.adminsolution.fr,api.adminsolution.digiconseil.fr
       - LETSENCRYPT_EMAIL=contact@digiconseil.fr
     volumes:
       - ./uploads:/app/uploads:rw

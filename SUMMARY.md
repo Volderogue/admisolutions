@@ -5,6 +5,7 @@
 Créer un site web moderne pour Admin Solution basé sur :
 - **Structure technique** : mentreprise (Node.js + React + Docker)
 - **Contenu et style** : www.adminsolution.fr (modernisé)
+- **URL de prod** : adminsolution.fr
 - **URL de préprod** : adminsolution.digiconseil.fr
 
 ## ✅ Ce qui a été créé
@@ -149,15 +150,17 @@ cd api && npm run dev  # API sur :3001
 **Production (Docker)**
 ```bash
 docker-compose up -d
-# Site : https://adminsolution.digiconseil.fr
-# API : https://api.adminsolution.digiconseil.fr
+# Site prod : https://adminsolution.fr
+# API prod : https://api.adminsolution.fr
+# Site préprod : https://adminsolution.digiconseil.fr
+# API préprod : https://api.adminsolution.digiconseil.fr
 ```
 
 ### Checklist de déploiement
 - [ ] Installer les dépendances (`npm install`)
 - [ ] Configurer `api/.env` avec paramètres SMTP
 - [ ] Tester en local
-- [ ] Configurer DNS (adminsolution.digiconseil.fr)
+- [ ] Configurer DNS (adminsolution.fr + adminsolution.digiconseil.fr)
 - [ ] Déployer avec Docker
 - [ ] Vérifier les certificats SSL
 - [ ] Tester le formulaire de contact
@@ -193,9 +196,12 @@ docker-compose up -d
 - LinkedIn : https://www.linkedin.com/company/admin-solution/
 
 **URLs du projet**
+- Site prod : https://adminsolution.fr
+- API prod : https://api.adminsolution.fr
 - Site préprod : https://adminsolution.digiconseil.fr
-- API : https://api.adminsolution.digiconseil.fr
-- Health check : https://api.adminsolution.digiconseil.fr/health
+- API préprod : https://api.adminsolution.digiconseil.fr
+- Health check prod : https://api.adminsolution.fr/health
+- Health check préprod : https://api.adminsolution.digiconseil.fr/health
 
 ## 📝 Notes techniques
 

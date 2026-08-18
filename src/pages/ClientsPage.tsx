@@ -1,4 +1,4 @@
-import { Building2, TrendingUp, Users, Star, Quote } from 'lucide-react';
+import { Building2, Star, Quote, Briefcase, Hammer } from 'lucide-react';
 
 interface ClientsPageProps {
   onNavigate: (page: string) => void;
@@ -7,55 +7,43 @@ interface ClientsPageProps {
 const ClientsPage = ({ onNavigate }: ClientsPageProps) => {
   const testimonials = [
     {
-      name: 'Marie L.',
-      company: 'Monsite en Ligne',
-      role: 'Directrice',
-      content: 'Admin Solution nous a permis de nous concentrer sur notre cœur de métier. Leur professionnalisme et leur réactivité sont remarquables.',
+      name: 'Qwincy',
+      company: 'Client Google',
+      role: 'Avis vérifié',
+      content: 'Excellent service et accompagnement de qualité. L\'équipe d\'Admin Solution est professionnelle, réactive et à l\'écoute de nos besoins. Je recommande vivement leurs services !',
       rating: 5,
-      avatar: 'ML',
+      avatar: 'Q',
     },
     {
-      name: 'Thomas B.',
-      company: 'AM Trust Média',
-      role: 'CEO',
-      content: 'Une équipe à l\'écoute qui comprend rapidement nos besoins. La qualité de service est au rendez-vous !',
+      name: 'Brice Blanc',
+      company: 'Client Google',
+      role: 'Avis vérifié',
+      content:
+        "Nous avions besoin, au sein de l’entreprise, d'une personne capable d’effectuer un travail d’archivage et de tri de documents médicaux. La proposition d’accompagnement qui nous a été faite a pleinement répondu à nos attentes, et même au-delà. Une collaboration de grande qualité que je recommande vivement.",
       rating: 5,
-      avatar: 'TB',
-    },
-    {
-      name: 'Sophie D.',
-      company: 'Harmony Avatar',
-      role: 'Responsable RH',
-      content: 'Excellent accompagnement pour notre gestion administrative. Je recommande vivement leurs services.',
-      rating: 5,
-      avatar: 'SD',
+      avatar: 'B',
     },
   ];
 
   const clientLogos = [
-    { name: 'Monsite en Ligne', initial: 'MEL' },
-    { name: 'AM Trust Média', initial: 'ATM' },
-    { name: 'BandKeys', initial: 'BK' },
-    { name: 'Harmony Avatar', initial: 'HA' },
-    { name: 'GoldenBnB', initial: 'GB' },
-    { name: 'Strasco', initial: 'STR' },
+    { name: 'OBAT', initial: 'OBAT', link: 'https://partenariats.obat.fr/admin-solution' },
   ];
 
   const sectors = [
     {
+      icon: Briefcase,
+      name: 'Professions Réglementées',
+      description: 'Experts-comptables, avocats, architectes, assureurs, huissiers',
+    },
+    {
       icon: Building2,
-      name: 'Services',
-      description: 'Conseil, expertise comptable, formation...',
+      name: 'TPE / PME Secteur Tertiaire',
+      description: 'Cabinets de conseil, agences immobilières, entreprises de prestations de services',
     },
     {
-      icon: TrendingUp,
-      name: 'E-commerce',
-      description: 'Boutiques en ligne, marketplaces...',
-    },
-    {
-      icon: Users,
-      name: 'Startups',
-      description: 'Jeunes entreprises innovantes...',
+      icon: Hammer,
+      name: 'Artisans / Solopreneurs',
+      description: 'Artisans (BTP, fabrication, services), entrepreneurs individuels',
     },
   ];
 
@@ -80,11 +68,11 @@ const ClientsPage = ({ onNavigate }: ClientsPageProps) => {
         <div className="container-custom">
           <div className="grid md:grid-cols-3 gap-8 -mt-20 relative z-10">
             <div className="card text-center group hover:scale-105 transition-transform">
-              <div className="text-5xl font-bold text-admin-primary mb-2">60+</div>
+              <div className="text-5xl font-bold text-admin-primary mb-2">20+</div>
               <p className="text-gray-600 font-semibold">Clients accompagnés</p>
             </div>
             <div className="card text-center group hover:scale-105 transition-transform">
-              <div className="text-5xl font-bold text-admin-primary mb-2">98%</div>
+              <div className="text-5xl font-bold text-admin-primary mb-2">100%</div>
               <p className="text-gray-600 font-semibold">Taux de satisfaction</p>
             </div>
             <div className="card text-center group hover:scale-105 transition-transform">
@@ -106,7 +94,7 @@ const ClientsPage = ({ onNavigate }: ClientsPageProps) => {
               Leur satisfaction est notre meilleure référence
             </p>
           </div>
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-2 gap-8">
             {testimonials.map((testimonial, index) => (
               <div
                 key={index}
@@ -147,19 +135,35 @@ const ClientsPage = ({ onNavigate }: ClientsPageProps) => {
             </h2>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
-            {clientLogos.map((logo, index) => (
-              <div
-                key={index}
-                className="card text-center group hover:scale-105 transition-all duration-300 flex items-center justify-center p-6"
-              >
+            {clientLogos.map((logo, index) => {
+              const CardContent = (
                 <div>
                   <div className="w-16 h-16 bg-gradient-to-br from-admin-primary/10 to-admin-secondary/10 rounded-xl flex items-center justify-center mx-auto mb-3 group-hover:scale-110 transition-transform">
                     <span className="text-xl font-bold text-admin-primary">{logo.initial}</span>
                   </div>
                   <p className="text-sm text-gray-600 font-semibold">{logo.name}</p>
                 </div>
-              </div>
-            ))}
+              );
+
+              return logo.link ? (
+                <a
+                  key={index}
+                  href={logo.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="card text-center group hover:scale-105 transition-all duration-300 flex items-center justify-center p-6 cursor-pointer"
+                >
+                  {CardContent}
+                </a>
+              ) : (
+                <div
+                  key={index}
+                  className="card text-center group hover:scale-105 transition-all duration-300 flex items-center justify-center p-6"
+                >
+                  {CardContent}
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -169,10 +173,10 @@ const ClientsPage = ({ onNavigate }: ClientsPageProps) => {
         <div className="container-custom">
           <div className="text-center mb-16">
             <h2 className="section-title">
-              Tous les <span className="text-admin-secondary">secteurs d'activité</span>
+              Qui sont nos <span className="text-admin-secondary">clients</span> ?
             </h2>
             <p className="section-subtitle">
-              Nous accompagnons les entreprises de tous horizons
+              Nous accompagnons des professionnels de tous horizons
             </p>
           </div>
           <div className="grid md:grid-cols-3 gap-8">
