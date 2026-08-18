@@ -1,5 +1,5 @@
 when:
-  - event: push
+  - event: [push, tag, manual]
     branch: main
 
 steps:
@@ -7,28 +7,28 @@ steps:
     image: woodpeckerci/plugin-docker-buildx
     privileged: true
     settings:
-      registry: git.digiconseil.fr
-      repo: git.digiconseil.fr/sites-vitrines/admin-solutions/web
+      registry: registry.digiconseil.fr
+      repo: registry.digiconseil.fr/sites-vitrines/admin-solutions/web
       dockerfile: Dockerfile.web
       context: .
       tags:
         - ${CI_COMMIT_SHA}
       username:
-        from_secret: registry_username
+        from_secret: harbor_ci_user
       password:
-        from_secret: registry_password
+        from_secret: harbor_ci_password
 
   - name: api
     image: woodpeckerci/plugin-docker-buildx
     privileged: true
     settings:
-      registry: git.digiconseil.fr
-      repo: git.digiconseil.fr/sites-vitrines/admin-solutions/api
+      registry: registry.digiconseil.fr
+      repo: registry.digiconseil.fr/sites-vitrines/admin-solutions/api
       dockerfile: Dockerfile.api
       context: .
       tags:
         - ${CI_COMMIT_SHA}
       username:
-        from_secret: registry_username
+        from_secret: harbor_ci_user
       password:
-        from_secret: registry_password
+        from_secret: harbor_ci_password
