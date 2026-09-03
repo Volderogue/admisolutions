@@ -32,16 +32,3 @@ steps:
         from_secret: harbor_ci_user
       password:
         from_secret: harbor_ci_password
-
-  - name: deploy
-    image: bitnami/kubectl:latest
-    environment:
-      KUBECONFIG_DATA:
-        from_secret: kubeconfig_prod
-    commands:
-      - mkdir -p /root/.kube
-      - echo "$KUBECONFIG_DATA" | base64 -d > /root/.kube/config
-      - kubectl -n sv-admin-solutions set image deploy/web web=registry.digiconseil.fr/sites-vitrines/admin-solutions/web:${CI_COMMIT_SHA}
-      - kubectl -n sv-admin-solutions set image deploy/api api=registry.digiconseil.fr/sites-vitrines/admin-solutions/api:${CI_COMMIT_SHA}
-      - kubectl -n sv-admin-solutions rollout status deploy/web --timeout=180s
-      - kubectl -n sv-admin-solutions rollout status deploy/api --timeout=180s
