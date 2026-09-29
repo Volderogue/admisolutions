@@ -32,3 +32,15 @@ steps:
         from_secret: harbor_ci_user
       password:
         from_secret: harbor_ci_password
+
+  - name: deploy
+    image: alpine/k8s:1.31.4
+    environment:
+      KUBECONFIG_DATA:
+        from_secret: kubeconfig
+    commands:
+      - mkdir -p /root/.kube
+      - printf '%s\n' "$KUBECONFIG_DATA" > /root/.kube/config
+      - kubectl -n client-admin-solutions set image deploy/admin-solutions-web web=registry.digiconseil.fr/sites-vitrines/admin-solutions/web:$${CI_COMMIT_SHA}
+      - kubectl -n client-admin-solutions set image deploy/admin-solutions-api api=registry.digiconseil.fr/sites-vitrines/admin-solutions/api:$${CI_COMMIT_SHA}
+      - kubectl -n client-admin-solutions rollout status deploy/admin-solutions-web deploy/admin-solutions-api --timeout=180s
