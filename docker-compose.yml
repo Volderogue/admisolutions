@@ -23,23 +23,4 @@ services:
       - ./uploads:/usr/share/nginx/html/uploads:rw
     restart: unless-stopped
 
-  api:
-    build:
-      context: .
-      dockerfile: Dockerfile.api
-    container_name: adminsolution-api
-    networks:
-      - proxy
-      - internal
-    env_file:
-      - ./api/.env
-    environment:
-      # Prod + préprod
-      - VIRTUAL_HOST=api.adminsolution.fr,api.adminsolution.digiconseil.fr
-      - LETSENCRYPT_HOST=api.adminsolution.fr,api.adminsolution.digiconseil.fr
-      - LETSENCRYPT_EMAIL=contact@digiconseil.fr
-    volumes:
-      - ./uploads:/app/uploads:rw
-    restart: unless-stopped
-
 
