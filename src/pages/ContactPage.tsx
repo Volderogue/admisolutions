@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Mail, Phone, MapPin, Send, CheckCircle, Clock, MessageSquare } from 'lucide-react';
+import { submitLead } from '../lib/submitLead';
 
 interface ContactPageProps {
   onNavigate: (page: string) => void;
@@ -17,14 +18,24 @@ const ContactPage = ({ onNavigate }: ContactPageProps) => {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [error, setError] = useState('');
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setError('');
 
-    // Simuler l'envoi du formulaire
-    setTimeout(() => {
-      setIsSubmitting(false);
+    try {
+      const hp = String(new FormData(e.currentTarget).get('_hp') ?? '');
+      await submitLead('contact', {
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        company: formData.company,
+        service: formData.service,
+        message: formData.message,
+        ...(hp ? { _hp: hp } : {}),
+      });
       setIsSubmitted(true);
       setFormData({
         name: '',
@@ -34,12 +45,11 @@ const ContactPage = ({ onNavigate }: ContactPageProps) => {
         message: '',
         service: '',
       });
-
-      // Réinitialiser après 5 secondes
-      setTimeout(() => {
-        setIsSubmitted(false);
-      }, 5000);
-    }, 1500);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Envoi impossible');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -158,6 +168,14 @@ const ContactPage = ({ onNavigate }: ContactPageProps) => {
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-6">
+                  <input
+                    type="text"
+                    name="_hp"
+                    tabIndex={-1}
+                    autoComplete="off"
+                    aria-hidden="true"
+                    className="absolute -left-[9999px] h-0 w-0"
+                  />
                   <div className="grid md:grid-cols-2 gap-6">
                     <div>
                       <label htmlFor="name" className="block text-sm font-semibold text-gray-700 mb-2">
@@ -257,6 +275,7 @@ const ContactPage = ({ onNavigate }: ContactPageProps) => {
                     />
                   </div>
 
+                  {error && <p className="text-sm text-red-700">{error}</p>}
                   <button
                     type="submit"
                     disabled={isSubmitting}
