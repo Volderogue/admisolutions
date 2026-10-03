@@ -1,6 +1,6 @@
 when:
   - event: [push, tag, manual]
-    branch: main
+    branch: [main, preview]
 
 steps:
   - name: web
@@ -28,3 +28,18 @@ steps:
       - printf '%s\n' "$KUBECONFIG_DATA" > /root/.kube/config
       - kubectl -n client-admin-solutions set image deploy/admin-solutions-web web=registry.digiconseil.fr/sites-vitrines/admin-solutions/web:$${CI_COMMIT_SHA}
       - kubectl -n client-admin-solutions rollout status deploy/admin-solutions-web --timeout=180s
+    when:
+      - branch: main
+
+  - name: deploy-preview
+    image: alpine/k8s:1.31.4
+    environment:
+      KUBECONFIG_DATA:
+        from_secret: kubeconfig
+    commands:
+      - mkdir -p /root/.kube
+      - printf '%s\n' "$$KUBECONFIG_DATA" > /root/.kube/config
+      - kubectl -n client-admin-solutions set image deploy/admin-solutions-preview-web web=registry.digiconseil.fr/sites-vitrines/admin-solutions/web:$${CI_COMMIT_SHA}
+      - kubectl -n client-admin-solutions rollout status deploy/admin-solutions-preview-web --timeout=180s
+    when:
+      - branch: preview

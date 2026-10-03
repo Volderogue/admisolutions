@@ -1,0 +1,17 @@
+---
+description: Nomenclature Kubernetes du déploiement Woodpecker.
+alwaysApply: true
+---
+
+# Déploiement
+
+Slug : `admin-solutions`. Famille B (web + api).
+
+- Namespace : `client-admin-solutions` (prod et preview)
+- Deployments prod : `admin-solutions-web`, `admin-solutions-api`
+- Deployment preview : `admin-solutions-preview-web`
+- Conteneurs : `web`, `api`
+
+`kubectl set image` cible le Deployment. Preview : `deploy/admin-solutions-preview-web`. Prod : `deploy/admin-solutions-web`. Le conteneur est le second argument.
+
+Secrets d’organisation, pas du dépôt : `registry_username`, `registry_password`, `kubeconfig` (YAML brut, pas base64). Image taguée par le SHA, jamais `latest`. L’étape deploy reste commentée tant que le namespace n’existe pas.
