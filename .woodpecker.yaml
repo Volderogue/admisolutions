@@ -1,30 +1,44 @@
+# admin-solutions : même fichier sur main et preview (une fusion preview -> main ne change rien ici).
+# - preview : image « preview-<commit> » -> préprod (Argo CD Image Updater + Argo CD) ;
+# - main (= version validée, fusion de preview) : image « main-<commit> » -> prod (Argo CD Image Updater + Argo CD).
+# Le pipeline ne touche jamais au cluster. Les tags git ne déclenchent plus rien.
 when:
-  - event: [push, tag, manual]
-    branch: main
-
+- event:
+  - push
+  - manual
+  branch:
+  - main
+  - preview
 steps:
-  - name: web
-    image: woodpeckerci/plugin-docker-buildx
-    privileged: true
-    settings:
-      registry: registry.digiconseil.fr
-      repo: registry.digiconseil.fr/sites-vitrines/admin-solutions/web
-      dockerfile: Dockerfile.web
-      context: .
-      tags:
-        - ${CI_COMMIT_SHA}
-      username:
-        from_secret: harbor_ci_user
-      password:
-        from_secret: harbor_ci_password
-
-  - name: deploy
-    image: alpine/k8s:1.31.4
-    environment:
-      KUBECONFIG_DATA:
-        from_secret: kubeconfig
-    commands:
-      - mkdir -p /root/.kube
-      - printf '%s\n' "$KUBECONFIG_DATA" > /root/.kube/config
-      - kubectl -n client-admin-solutions set image deploy/admin-solutions-web web=registry.digiconseil.fr/sites-vitrines/admin-solutions/web:$${CI_COMMIT_SHA}
-      - kubectl -n client-admin-solutions rollout status deploy/admin-solutions-web --timeout=180s
+- name: web-main
+  image: woodpeckerci/plugin-docker-buildx
+  privileged: true
+  settings:
+    registry: registry.digiconseil.fr
+    repo: registry.digiconseil.fr/sites-vitrines/admin-solutions/web
+    dockerfile: Dockerfile.web
+    context: .
+    tags:
+    - main-${CI_COMMIT_SHA}
+    username:
+      from_secret: harbor_ci_user
+    password:
+      from_secret: harbor_ci_password
+  when:
+  - branch: main
+- name: web-preview
+  image: woodpeckerci/plugin-docker-buildx
+  privileged: true
+  settings:
+    registry: registry.digiconseil.fr
+    repo: registry.digiconseil.fr/sites-vitrines/admin-solutions/web
+    dockerfile: Dockerfile.web
+    context: .
+    tags:
+    - preview-${CI_COMMIT_SHA}
+    username:
+      from_secret: harbor_ci_user
+    password:
+      from_secret: harbor_ci_password
+  when:
+  - branch: preview
