@@ -1,17 +1,16 @@
-# Branche preview : les images sont taguées « preview-<commit> » et poussées dans Harbor ;
-# le pipeline ne touche plus au cluster. Argo CD Image Updater écrit le tag dans
-# Digiconseil/k3s-config (sites/<namespace>/preprod/kustomization.yaml), puis Argo CD l'applique.
-# Le comportement de la branche main est inchangé.
+# admin-solutions : même fichier sur main et preview (une fusion preview -> main ne change rien ici).
+# - preview : image « preview-<commit> » -> préprod (Argo CD Image Updater + Argo CD) ;
+# - main (= version validée, fusion de preview) : image « main-<commit> » -> prod (Argo CD Image Updater + Argo CD).
+# Le pipeline ne touche jamais au cluster. Les tags git ne déclenchent plus rien.
 when:
 - event:
   - push
-  - tag
   - manual
   branch:
   - main
   - preview
 steps:
-- name: web
+- name: web-main
   image: woodpeckerci/plugin-docker-buildx
   privileged: true
   settings:
@@ -20,13 +19,13 @@ steps:
     dockerfile: Dockerfile.web
     context: .
     tags:
-    - ${CI_COMMIT_SHA}
+    - main-${CI_COMMIT_SHA}
     username:
       from_secret: harbor_ci_user
     password:
       from_secret: harbor_ci_password
   when:
-  - evaluate: CI_COMMIT_BRANCH != "preview"
+  - branch: main
 - name: web-preview
   image: woodpeckerci/plugin-docker-buildx
   privileged: true
@@ -42,16 +41,4 @@ steps:
     password:
       from_secret: harbor_ci_password
   when:
-  - evaluate: CI_COMMIT_BRANCH == "preview"
-- name: deploy
-  image: alpine/k8s:1.31.4
-  environment:
-    KUBECONFIG_DATA:
-      from_secret: kubeconfig
-  commands:
-  - mkdir -p /root/.kube
-  - printf '%s\n' "$KUBECONFIG_DATA" > /root/.kube/config
-  - kubectl -n client-admin-solutions set image deploy/admin-solutions-web web=registry.digiconseil.fr/sites-vitrines/admin-solutions/web:$${CI_COMMIT_SHA}
-  - kubectl -n client-admin-solutions rollout status deploy/admin-solutions-web --timeout=180s
-  when:
-  - branch: main
+  - branch: preview
