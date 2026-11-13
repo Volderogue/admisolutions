@@ -4,7 +4,7 @@ when:
 
 steps:
   - name: web
-    image: woodpeckerci/plugin-docker-buildx
+    image: woodpeckerci/plugin-docker-buildx@sha256:60950473496ca6f0ba2a29405b50bbc841e48912653ae5ee93b5e398ed34156b
     privileged: true
     settings:
       registry: registry.digiconseil.fr
@@ -19,7 +19,7 @@ steps:
         from_secret: harbor_ci_password
 
   - name: deploy
-    image: alpine/k8s:1.31.4
+    image: alpine/k8s:1.37.2@sha256:7a82aeefea3d554a43a8676b137f2b88bae6c1fe11c13862b191b3a086cc28c0
     environment:
       KUBECONFIG_DATA:
         from_secret: kubeconfig
